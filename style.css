@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: black;
+}
+
+header {
+    display: grid;
+    grid-template: 72px / 72px calc(60% - 72px) 40%;
+}
+
+.left-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.middle-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.home-button {
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 50%;
+    padding: 12px;
+}
+
+.search-bar-container {
+    width: 475px;
+}
+
+.search-icon {
+    background-color: #1f1f1f;
+    margin-left: 14px;
+    padding: 12px;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.search-bar {
+    height: 52.2px;
+    width: 100%;
+}
+
+.search-input {
+    background-color: #1f1f1f;
+    border: none;
+    height: 100%;
+    width: 100%;
+}
+
+.wrapper-icon {
+    background-color: #1f1f1f;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    margin-right: 14px;
+    padding: 12px;
+}
+
+.wrapper-icon-2 {
+    padding: 0 4px 0 12px;
+    border-left: 1px solid rgb(124, 124, 124);
+}
+
+.right-header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-weight: 600;
+}
+
+.right-header>button {
+    color: rgb(179, 179, 179);
+    background-color: transparent;
+    font-weight: 700;
+    border: none;
+}
+
+.divider {
+    height: 24px;
+    width: 1px;
+    background-color: rgb(179, 179, 179);
+}
+
+.install-link {
+    font-weight: 700;
+    text-decoration: none;
+    color: rgb(179, 179, 179);
+    display: flex;
+    gap: 10px;
+}
+
+.account-container button {
+    font-weight: 700;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: none;
+}
+
+#sign-up-button {
+    background-color: transparent;
+    color: rgb(179, 179, 179);
+}
