@@ -80,6 +80,66 @@
                 <button id="sign-up-button">Sign Up</button>
                 <button id="log-in-button">Log In</button>
             </div>
+            <div class="menu-icon">
+                <span class="hamberger-icon enable">
+                    <svg viewBox="0 0 448 512" style="height: 24px; width: 24px; fill: #ffffff">
+                        <path
+                            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+                    </svg>
+                </span>
+                <span class="cross-icon disable">
+                    <svg style="width: 24px; height: 24px; fill: white;" viewBox="0 0 384 512">
+                        <path
+                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="drop-down disable">
+                <ul style="list-style-type: none;">
+                    <li>
+                        <a href="#">
+                            <span>Premium</span>
+                            <svg data-encore-id="icon" role="img" aria-label="External link" aria-hidden="false"
+                                viewBox="0 0 16 16" style="fill:white; height: 16px; width: 16px;">
+                                <path
+                                    d="M1 2.75A.75.75 0 0 1 1.75 2H7v1.5H2.5v11h10.219V9h1.5v6.25a.75.75 0 0 1-.75.75H1.75a.75.75 0 0 1-.75-.75z">
+                                </path>
+                                <path
+                                    d="M15 1v4.993a.75.75 0 1 1-1.5 0V3.56L8.78 8.28a.75.75 0 0 1-1.06-1.06l4.72-4.72h-2.433a.75.75 0 0 1 0-1.5z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>Support</span>
+                            <svg data-encore-id="icon" role="img" aria-label="External link" aria-hidden="false"
+                                viewBox="0 0 16 16" style="fill:white; height: 16px; width: 16px;">
+                                <path
+                                    d="M1 2.75A.75.75 0 0 1 1.75 2H7v1.5H2.5v11h10.219V9h1.5v6.25a.75.75 0 0 1-.75.75H1.75a.75.75 0 0 1-.75-.75z">
+                                </path>
+                                <path
+                                    d="M15 1v4.993a.75.75 0 1 1-1.5 0V3.56L8.78 8.28a.75.75 0 0 1-1.06-1.06l4.72-4.72h-2.433a.75.75 0 0 1 0-1.5z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>Download</span>
+                            <svg data-encore-id="icon" role="img" aria-label="External link" aria-hidden="false"
+                                viewBox="0 0 16 16" style="fill:white; height: 16px; width: 16px;">
+                                <path
+                                    d="M1 2.75A.75.75 0 0 1 1.75 2H7v1.5H2.5v11h10.219V9h1.5v6.25a.75.75 0 0 1-.75.75H1.75a.75.75 0 0 1-.75-.75z">
+                                </path>
+                                <path
+                                    d="M15 1v4.993a.75.75 0 1 1-1.5 0V3.56L8.78 8.28a.75.75 0 0 1-1.06-1.06l4.72-4.72h-2.433a.75.75 0 0 1 0-1.5z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </header>
 
@@ -159,7 +219,8 @@
                     <div class="current-time">00:00</div>
                     <div class="duration">00:00</div>
                     <div class="seek-button">
-                        <input type="range" id="player-timing" name="time" min="0" max="100" value="0" style="width: 100%;">
+                        <input type="range" id="player-timing" name="time" min="0" max="100" value="0"
+                            style="width: 100%;">
                     </div>
                 </div>
             </div>
@@ -171,7 +232,7 @@
                     </path>
                     <path d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z"></path>
                 </svg>
-                <input type="range" id="volume" name="volume" min="0" max="100" value="100"  style="width: 60%;">
+                <input type="range" id="volume" name="volume" min="0" max="100" value="100" style="width: 60%;">
             </div>
         </div>
     </main>
