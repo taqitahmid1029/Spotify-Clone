@@ -30,8 +30,8 @@ const main = async () => {
 
     // element is each and every folder/playlist
     for await (let element of elements) {
-        let thumbnail, title, description, songArr = [];        
-        let link = element.href;        
+        let thumbnail, title, description, songArr = [];
+        let link = element.href;
 
         //this block creates an array of every file in a folder/playlist
         let eleLink = element.href;
@@ -65,11 +65,12 @@ const main = async () => {
         //this block creates and appends a playlist card in HTML
         let playlistCard = document.createElement('div');
         playlistCard.classList.add('playlist');
-        playlistCard.innerHTML = `<img src="${thumbnail}" alt="thumbnail"><h2>${title}</h2>`;
+        playlistCard.classList.add('card');
+        playlistCard.innerHTML = `<span></span><div class="content"><img src="${thumbnail}" alt="thumbnail"><h2>${title}</h2></div>`;
         let playlistContainer = document.querySelector('.playlist-container');
         playlistContainer.append(playlistCard);
         playlistCard.addEventListener('click', () => {
-            
+
         })
     }
 }
