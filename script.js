@@ -30,8 +30,7 @@ const main = async () => {
 
     // element is each and every folder/playlist
     for await (let element of elements) {
-        let thumbnail, title, description, songArr = [];
-        let link = element.href;
+        let thumbnail, title, description, songArrLink = [], songArrName = [];
 
         //this block creates an array of every file in a folder/playlist
         let eleLink = element.href;
@@ -45,6 +44,8 @@ const main = async () => {
 
             // element2 is each and every file/json/mp3/mp4 in a folder/playlist
             let ele2Link = element2.href;
+            let ele2Text = element2.innerText;
+            ele2Text = ele2Text.slice(0, ele2Text.length - 4);
 
             if (ele2Link.endsWith('.json')) {
                 let unpersed = await fetch(ele2Link);
@@ -58,7 +59,8 @@ const main = async () => {
             }
 
             if (ele2Link.endsWith('.mp3') || ele2Link.endsWith('.m4a')) {
-                songArr.push(ele2Link);
+                songArrLink.push(ele2Link);
+                songArrName.push(ele2Text);
             }
         }
 
@@ -80,7 +82,26 @@ const main = async () => {
         playlistContainer.append(playlistCard);
 
         playlistCard.addEventListener('click', () => {
-            
+            let img = document.querySelector('.thumbnail-container img');
+            if (img.classList.contains('disable')) {
+                img.classList.remove('disable');                
+            }
+            img.src = thumbnail;
+
+            document.querySelector('.title h2').innerText = title;
+            document.querySelector('.descprition p').innerText = description;
+
+            let ul = document.querySelector('.song-list-container ul');
+            let preLists = ul.childNodes;
+            preLists = Array.from(preLists);
+            for (let preList of preLists) {
+                preList.remove();
+            }
+            for (let songName of songArrName) {
+                let list = document.createElement('li');
+                list.innerText = songName;
+                ul.append(list);
+            }
         })
     }
 }
