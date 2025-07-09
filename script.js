@@ -62,15 +62,25 @@ const main = async () => {
             }
         }
 
-        //this block creates and appends a playlist card in HTML
         let playlistCard = document.createElement('div');
         playlistCard.classList.add('playlist');
-        playlistCard.classList.add('card');
-        playlistCard.innerHTML = `<span></span><div class="content"><img src="${thumbnail}" alt="thumbnail"><h2>${title}</h2></div>`;
+        playlistCard.innerHTML = `<div class="img-title-container">
+                <img src="${thumbnail}" alt="thumbnail" class="thumbnail">
+                <span class="title">${title}</span>
+            </div>
+            <button class="play-button">
+                <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 16 16"
+                    style="fill: rgb(255, 255, 255); height: 16px; width: 16px;">
+                    <path
+                        d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288z">
+                    </path>
+                </svg>
+            </button>`
         let playlistContainer = document.querySelector('.playlist-container');
         playlistContainer.append(playlistCard);
-        playlistCard.addEventListener('click', () => {
 
+        playlistCard.addEventListener('click', () => {
+            
         })
     }
 }
