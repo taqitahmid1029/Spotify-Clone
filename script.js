@@ -47,23 +47,27 @@ const main = async () => {
             let ele2Text = element2.innerText;
             ele2Text = ele2Text.slice(0, ele2Text.length - 4);
 
+            // when I find JSON file
             if (ele2Link.endsWith('.json')) {
                 let unpersed = await fetch(ele2Link);
                 let pursed = await unpersed.json();
                 title = pursed.title;
                 description = pursed.description;
             }
-
+            
+            // when I find image/thumbnail
             if (ele2Link.endsWith('.jpg') || ele2Link.endsWith('.jpeg')) {
                 thumbnail = ele2Link;
             }
-
+            
+            // when I find audio/song
             if (ele2Link.endsWith('.mp3') || ele2Link.endsWith('.m4a')) {
                 songArrLink.push(ele2Link);
                 songArrName.push(ele2Text);
             }
         }
 
+        // create a card of playlist in left side
         let playlistCard = document.createElement('div');
         playlistCard.classList.add('playlist');
         playlistCard.innerHTML = `<div class="img-title-container">
@@ -81,16 +85,20 @@ const main = async () => {
         let playlistContainer = document.querySelector('.playlist-container');
         playlistContainer.append(playlistCard);
 
+        // if I click the playlist card in left side
         playlistCard.addEventListener('click', () => {
+            // change right side image/thumbnail
             let img = document.querySelector('.thumbnail-container img');
             if (img.classList.contains('disable')) {
                 img.classList.remove('disable');                
             }
             img.src = thumbnail;
-
+            
+            // change right side title and description
             document.querySelector('.title h2').innerText = title;
             document.querySelector('.descprition p').innerText = description;
 
+            // destroy previous list and create new list of songs
             let ul = document.querySelector('.song-list-container ul');
             let preLists = ul.childNodes;
             preLists = Array.from(preLists);
@@ -101,12 +109,38 @@ const main = async () => {
                 let list = document.createElement('li');
                 list.innerText = songName;
                 ul.append(list);
+
+                // if I click the list then play the song
+                list.addEventListener('click', () => {
+                    document.querySelector('.song-name span').innerText = songName;
+                    for (const songLink of songArrLink) {
+                        songName = songName.replaceAll(' ', '%20');
+                        if (songLink.search(songName) > 0) {
+                            var audio = new Audio(songLink);
+                            audio.play();
+                            playBtn.classList.toggle('disable');
+                            pauseBtn.classList.toggle('disable');
+                            playBtn.classList.toggle('enable');
+                            pauseBtn.classList.toggle('enable');
+                        }
+                    }
+                })
             }
         })
-    }
+    }    
 }
-
 
 (async () => {
     main();
 })()
+
+
+// music player in the bottom
+var playBtn = document.querySelector('#play-button');
+var pauseBtn = document.querySelector('#pause-button');
+var preBtn = document.querySelector('#previous-song-button');
+var nextBtn = document.querySelector('#next-song-button');
+console.log(playBtn);
+console.log(pauseBtn);
+console.log(preBtn);
+console.log(nextBtn);

@@ -255,6 +255,7 @@ header {
     list-style-type: number;
     list-style-position: inside;
 }
+
 .song-list-container ul li {
     padding: 15px;
     border-radius: 10px;
@@ -292,8 +293,8 @@ header {
     background-color: white;
 }
 
-.player-container .previous-song-button,
-.player-container .next-song-button {
+.player-container #previous-song-button,
+.player-container #next-song-button {
     background-color: transparent;
     margin: 0 20px;
     border: none;
