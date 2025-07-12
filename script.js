@@ -1,78 +1,80 @@
-let menuIcon = document.querySelector('.menu-icon');
-let hambergerIcon = document.querySelector('.hamberger-icon');
-let crossIcon = document.querySelector('.cross-icon');
-let dropDown = document.querySelector('.drop-down');
-
-menuIcon.addEventListener('click', () => {
-    hambergerIcon.classList.toggle('enable');
-    hambergerIcon.classList.toggle('disable');
-    crossIcon.classList.toggle('enable');
-    crossIcon.classList.toggle('disable');
-    dropDown.classList.toggle('enable');
-    dropDown.classList.toggle('disable');
-})
-
-const purse = async (url) => {
+const getLinks = async (url) => {
+    let html = document.createElement('div');
     let unpersed = await fetch(url);
-    let persed = await unpersed.text();
-    return persed;
+    html.innerHTML = await unpersed.text();
+    let linkElements = html.querySelectorAll('a');
+    linkElements = Array.from(linkElements);
+    linkElements = linkElements.slice(1, linkElements.length);
+    return linkElements;
 }
 
-// main function is the main JS code
-const main = async () => {
+const secondsToMMSS = (totalSeconds) => {
+    let sec1, sec2, min1, min2;
+    if (totalSeconds > 59) {
+        sec1 = Math.floor(totalSeconds % 60);
+        sec2 = String(sec1).padStart(2, 0);
 
-    // this block creates an array of every playlist link
-    let html = document.createElement('div');
-    html.innerHTML = await purse('Playlists');
-    let elements = html.querySelectorAll('a');
-    elements = Array.from(elements);
-    elements = elements.slice(1, elements.length);
+        min1 = Math.floor(totalSeconds / 60)
+        min2 = String(min1).padStart(2, 0);
+    }
 
-    // element is each and every folder/playlist
-    for await (let element of elements) {
-        let thumbnail, title, description, songArrLink = [], songArrName = [];
+    if (totalSeconds < 60) {
+        sec1 = Math.floor(totalSeconds);
+        sec2 = String(sec1).padStart(2, 0);
 
-        //this block creates an array of every file in a folder/playlist
-        let eleLink = element.href;
-        let html2 = document.createElement('div');
-        html2.innerHTML = await purse(eleLink);
-        let elements2 = html2.querySelectorAll('a');
-        elements2 = Array.from(elements2);
-        elements2 = elements2.slice(1, elements2.length);
+        min2 = '00';
+    }
 
-        for await (let element2 of elements2) {
+    return `${min2}:${sec2}`;
+}
 
-            // element2 is each and every file/json/mp3/mp4 in a folder/playlist
-            let ele2Link = element2.href;
-            let ele2Text = element2.innerText;
-            ele2Text = ele2Text.slice(0, ele2Text.length - 4);
+const scanDatabase = async () => {
+    let playlistLinkEs = await getLinks('/Playlists');
+    let playlistArray = [];
 
-            // when I find JSON file
-            if (ele2Link.endsWith('.json')) {
-                let unpersed = await fetch(ele2Link);
-                let pursed = await unpersed.json();
-                title = pursed.title;
-                description = pursed.description;
+    for (const playlistLinkE of playlistLinkEs) {
+        let fileLinkEs = await getLinks(playlistLinkE.href);
+
+        let playlist = {};
+        let songs = [];
+        for (let fileLinkE of fileLinkEs) {
+            let fileLink = fileLinkE.href;
+
+            if (fileLink.endsWith('.json')) {
+                let x = await fetch(fileLink);
+                let y = await x.json();
+                playlist.title = y.title;
+                playlist.description = y.description;
             }
-            
-            // when I find image/thumbnail
-            if (ele2Link.endsWith('.jpg') || ele2Link.endsWith('.jpeg')) {
-                thumbnail = ele2Link;
+
+            if (fileLink.endsWith('.jpg') || fileLink.endsWith('.jpeg')) {
+                playlist.thumbnail = fileLink;
             }
-            
-            // when I find audio/song
-            if (ele2Link.endsWith('.mp3') || ele2Link.endsWith('.m4a')) {
-                songArrLink.push(ele2Link);
-                songArrName.push(ele2Text);
+
+            if (fileLink.endsWith('.mp3') || fileLink.endsWith('.m4a')) {
+                let index = fileLink.lastIndexOf('/');
+                let fileName = fileLink.substring(index + 1, fileLink.length - 4);
+                fileName = fileName.replaceAll('%20', ' ');
+                songs.push([fileName, fileLink]);
             }
         }
+        playlist.songs = songs;
+        playlistArray.push(playlist);
+    }
+    return playlistArray;
+}
 
-        // create a card of playlist in left side
+(async () => {
+    let data = await scanDatabase();
+    let track = new Audio();
+    for (let index = 0; index < data.length; index++) {
+        let playlist = data[index];
+
         let playlistCard = document.createElement('div');
         playlistCard.classList.add('playlist');
         playlistCard.innerHTML = `<div class="img-title-container">
-                <img src="${thumbnail}" alt="thumbnail" class="thumbnail">
-                <span class="title">${title}</span>
+                <img src="${playlist.thumbnail}" alt="thumbnail" class="thumbnail">
+                <span class="title">${playlist.title}</span>
             </div>
             <button class="play-button">
                 <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 16 16"
@@ -85,62 +87,100 @@ const main = async () => {
         let playlistContainer = document.querySelector('.playlist-container');
         playlistContainer.append(playlistCard);
 
-        // if I click the playlist card in left side
         playlistCard.addEventListener('click', () => {
-            // change right side image/thumbnail
-            let img = document.querySelector('.thumbnail-container img');
-            if (img.classList.contains('disable')) {
-                img.classList.remove('disable');                
-            }
-            img.src = thumbnail;
-            
-            // change right side title and description
-            document.querySelector('.title h2').innerText = title;
-            document.querySelector('.descprition p').innerText = description;
-
-            // destroy previous list and create new list of songs
+            let img = document.querySelector('.thumbnail-container img')
+            img.src = playlist.thumbnail;
+            img.classList.remove('disable');
+            document.querySelector('.title h2').innerText = playlist.title;
+            document.querySelector('.descprition p').innerText = playlist.description;
             let ul = document.querySelector('.song-list-container ul');
-            let preLists = ul.childNodes;
-            preLists = Array.from(preLists);
-            for (let preList of preLists) {
-                preList.remove();
-            }
-            for (let songName of songArrName) {
+            ul.innerHTML = '';
+
+            for (let song of playlist.songs) {
                 let list = document.createElement('li');
-                list.innerText = songName;
+                list.innerText = song[0];
                 ul.append(list);
 
-                // if I click the list then play the song
                 list.addEventListener('click', () => {
-                    document.querySelector('.song-name span').innerText = songName;
-                    for (const songLink of songArrLink) {
-                        songName = songName.replaceAll(' ', '%20');
-                        if (songLink.search(songName) > 0) {
-                            var audio = new Audio(songLink);
-                            audio.play();
-                            playBtn.classList.toggle('disable');
-                            pauseBtn.classList.toggle('disable');
-                            playBtn.classList.toggle('enable');
-                            pauseBtn.classList.toggle('enable');
-                        }
-                    }
+                    document.querySelector('.song-name').innerText = song[0];
+                    track.src = song[1];
+                    track.play();
+                    pauseBtn.classList.remove('enable');
+                    pauseBtn.classList.add('disable');
+                    playBtn.classList.remove('disable');
+                    playBtn.classList.add('enable');
                 })
             }
         })
-    }    
-}
+    }
 
-(async () => {
-    main();
+    let playBtn = document.querySelector('#play-button');
+    let pauseBtn = document.querySelector('#pause-button');
+    let previousBtn = document.querySelector('#previous-song-button');
+    let nextBtn = document.querySelector('#next-song-button');
+
+    playBtn.addEventListener('click', () => {
+        if (!track.src == '') {
+            track.pause();
+            playBtn.classList.add('disable');
+            playBtn.classList.remove('enable');
+            pauseBtn.classList.add('enable');
+            pauseBtn.classList.remove('disable');
+        }
+    })
+
+    pauseBtn.addEventListener('click', () => {
+        if (!track.src == '') {
+            pauseBtn.classList.add('disable');
+            pauseBtn.classList.remove('enable');
+            playBtn.classList.add('enable');
+            playBtn.classList.remove('disable');
+            track.play();
+        }
+    })
+
+    let currentTime = document.querySelector('.current-time');
+    let duration = document.querySelector('.duration');
+    let seekBar = document.querySelector('.seek-button input');
+
+    seekBar.addEventListener('change', () => {
+        track.currentTime = (track.duration * seekBar.value) / 100;
+    })
+
+    track.addEventListener('timeupdate', () => {
+        currentTime.innerText = secondsToMMSS(track.currentTime);
+        duration.innerText = secondsToMMSS(track.duration);
+        seekBar.value = (track.currentTime / track.duration) * 100;
+    })
+
+    previousBtn.addEventListener('click', () => {
+        for (const playlist of data) {
+            for (let index = 0; index < playlist.songs.length; index++) {
+                if (playlist.songs[index][0] == document.querySelector('.song-name').innerText) {
+                    track.src = playlist.songs[index - 1][1];
+                    track.play();
+                    document.querySelector('.song-name').innerText = playlist.songs[index - 1][0];
+                    break;
+                }
+            }
+        }
+    })
+
+    nextBtn.addEventListener('click', () => {
+        for (const playlist of data) {
+            for (let index = 0; index < playlist.songs.length; index++) {
+                if (playlist.songs[index][0] == document.querySelector('.song-name').innerText) {
+                    track.src = playlist.songs[index + 1][1];
+                    track.play();
+                    document.querySelector('.song-name').innerText = playlist.songs[index + 1][0];
+                    break;
+                }
+            }
+        }
+    })
+
+    let volume = document.querySelector('.volume-controller input');
+    volume.addEventListener('change', () => {
+        track.volume = volume.value / 100;
+    })
 })()
-
-
-// music player in the bottom
-var playBtn = document.querySelector('#play-button');
-var pauseBtn = document.querySelector('#pause-button');
-var preBtn = document.querySelector('#previous-song-button');
-var nextBtn = document.querySelector('#next-song-button');
-console.log(playBtn);
-console.log(pauseBtn);
-console.log(preBtn);
-console.log(nextBtn);

@@ -159,9 +159,9 @@ header {
 }
 
 .contents>div::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
- 
+
 .contents>div::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background: #555;
@@ -300,14 +300,6 @@ header {
     border: none;
 }
 
-.enable {
-    display: inline;
-}
-
-.disable {
-    display: none;
-}
-
 .player-timing-container {
     position: relative;
     width: 100%;
@@ -333,6 +325,11 @@ header {
     top: 20px;
 }
 
+.seek-button input:hover {
+    cursor: pointer;
+    
+}
+
 .volume-controller {
     display: flex;
     flex-wrap: wrap;
@@ -341,6 +338,16 @@ header {
     flex-direction: row;
     align-content: center;
     gap: 10px;
+}
+
+/* Utility Classes */
+
+.enable {
+    display: inline;
+}
+
+.disable {
+    display: none;
 }
 
 @media screen and (max-width: 1225px) {
