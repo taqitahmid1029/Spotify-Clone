@@ -11,6 +11,8 @@ body {
     background-color: black;
 }
 
+/* Header */
+
 header {
     display: grid;
     grid-template: 72px / 72px calc(55% - 72px) 45%;
@@ -43,10 +45,7 @@ header {
     background-color: #1f1f1f;
     margin-left: 14px;
     padding: 12px;
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 50% 0 0 50%;
 }
 
 .search-form {
@@ -69,10 +68,7 @@ header {
 
 .wrapper-icon {
     background-color: #1f1f1f;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
+    border-radius: 0 50% 50% 0;
     margin-right: 14px;
     padding: 12px;
 }
@@ -123,6 +119,10 @@ header {
     color: rgb(179, 179, 179);
 }
 
+.menu-icon {
+    display: none;
+}
+
 .drop-down {
     width: 196px;
     border-radius: 5px;
@@ -146,6 +146,7 @@ header {
 }
 
 /* Main Contents */
+
 .contents {
     display: grid;
     grid-template: 1fr / 32vw auto;
@@ -199,11 +200,6 @@ header {
     margin: 10px;
     border-radius: 10px;
     background-color: #1f1f1f;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
     transition: all 250ms ease;
     cursor: pointer;
 }
@@ -293,8 +289,7 @@ header {
     background-color: white;
 }
 
-.player-container #previous-song-button,
-.player-container #next-song-button {
+.player-container #previous-song-button, .player-container #next-song-button {
     background-color: transparent;
     margin: 0 20px;
     border: none;
@@ -327,13 +322,11 @@ header {
 
 .seek-button input:hover {
     cursor: pointer;
-    
 }
 
 .volume-controller {
     display: flex;
     flex-wrap: wrap;
-    padding: 20px;
     justify-content: center;
     flex-direction: row;
     align-content: center;
@@ -387,43 +380,145 @@ header {
 }
 
 @media screen and (max-width:850px) {
-
-    .premium-button,
-    .support-button,
-    .download-button,
-    .divider {
+    .premium-button, .support-button, .download-button, .divider {
         display: none;
     }
 
     header {
         grid-template: 72px / 72px calc(60% - 72px) 40%;
     }
+
+    .menu-icon {
+        display: inline;
+    }
+}
+
+@media screen and (max-width:730px) {
+    header {
+        grid-template: 72px / 72px calc(50% - 72px) 50%;
+    }
 }
 
 @media screen and (max-width: 600px) {
-    .contents {
-        grid-template-columns: 1fr;
+    body {
+        padding-bottom: 70px;
     }
 
-    .left-side-content {
+    header {
+        grid-template: 72px / 72px calc(40% - 72px) 60%;
+    }
+
+    .contents {
+        display: block;
+    }
+
+    .contents>div {
+        margin: 0 10px;
+        height: auto !important;
+        overflow: scroll hidden;
+        border-radius: 0;
+    }
+
+    .playlist-container {
+        display: inline-flex;
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
+        max-height: 255px;
+    }
+
+    .playlist {
+        width: 200px;
+        padding: 10px;
+        margin: auto;
+    }
+
+    .playlist .thumbnail {
+        width: 50%;
+    }
+
+    .playlist .img-title-container {
+        flex-direction: column;
+    }
+
+    .thumbnail-container {
         display: none;
     }
 
-    .right-side-content {
-        margin: 0 10px;
-        height: calc(100vh - 72px - 65px) !important;
+    .title {
+        padding: 10px 0;
+    }
+
+    .descprition {
+        display: none;
+    }
+
+    .song-list ul {
+        list-style-type: none;
+        display: inline-flex;
+        gap: 20px;
+    }
+
+    .song-list li {
+        width: 200px;
+        height: 80px;
+        transition: all 250ms ease;
+        cursor: pointer;
+    }
+
+    .song-list li:hover {
+        transform: scale(1.1);
+    }
+
+    .player-container {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
     }
 
     .player-timing-container {
         display: none;
     }
+}
 
-    .volume-controller {
+@media screen and (max-width: 500px) {
+    header {
+        grid-template: 65px / 65px calc(50% - 72px) 50%;
+    }
+
+    .install-link {
         display: none;
+    }
 
+    .account-container button {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    header {
+        grid-template: 65px / 65px calc(40% - 72px) 60%;
+    }
+
+    .home-button {
+        display: none;
+    }
+
+    .search-icon {
+        padding: 10px;
+    }
+
+    .left-header {
+        width: 65px;
+    }
+
+    .account-container button {
+        padding: 10px;
     }
 
     .player-container {
-        grid-template-columns: 60% 40%;
+        grid-template: 1fr / 25% 55% 20%;
+        padding: 10px;
     }
 }
