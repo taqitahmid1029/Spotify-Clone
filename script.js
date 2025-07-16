@@ -14,6 +14,7 @@ menuIcon.addEventListener('click', () => {
     dropDown.classList.toggle('disable');
 })
 
+// JavaScript Code Begains
 
 // this function takes a url/folder and returns all listing-link/files or folder without 1st one.
 const getLinks = async (url) => {
@@ -27,7 +28,6 @@ const getLinks = async (url) => {
 }
 
 // this function takes number in second unit and converts into mm:ss format string.
-
 const secondsToMMSS = (totalSeconds) => {
     let sec1, sec2, min1, min2;
     if (totalSeconds > 59) {
@@ -126,51 +126,29 @@ const scanDatabase = async () => {
         })
     }
 
-    // if user clicks play button
-    let playBtn = document.querySelector('#play-button');
-    playBtn.addEventListener('click', () => {
-        if (!track.src == '') {
-            track.pause();
-            playBtn.classList.add('disable');
-            playBtn.classList.remove('enable');
-            pauseBtn.classList.add('enable');
-            pauseBtn.classList.remove('disable');
-        }
-    })
-
-    // if user clicks pause button
+    let playPauseBtn = document.querySelector('.play-pause-button');
     let pauseBtn = document.querySelector('#pause-button');
-    pauseBtn.addEventListener('click', () => {
+    let playBtn = document.querySelector('#play-button');
+    playPauseBtn.addEventListener('click', () => {
         if (track.src != '') {
-            track.play();
-            pauseBtn.classList.add('disable');
-            pauseBtn.classList.remove('enable');
-            playBtn.classList.add('enable');
-            playBtn.classList.remove('disable');
+
+            if (track.paused) {
+                track.play();
+                pauseBtn.classList.add('disable');
+                pauseBtn.classList.remove('enable');
+                playBtn.classList.add('enable');
+                playBtn.classList.remove('disable');
+            }
+
+            else if (!track.paused) {
+                track.pause();
+                playBtn.classList.add('disable');
+                playBtn.classList.remove('enable');
+                pauseBtn.classList.add('enable');
+                pauseBtn.classList.remove('disable');
+            }
         }
     })
-
-    // let playPauseBtn = document.querySelector('.play-pause-button');
-    // let pauseBtn = document.querySelector('#pause-button');
-    // let playBtn = document.querySelector('#play-button');
-    // playPauseBtn.addEventListener('click', () => {
-    //     if (track.src != '') {
-    //         if (track.paused) {
-    //             track.play();
-    //             pauseBtn.classList.add('disable');
-    //             pauseBtn.classList.remove('enable');
-    //             playBtn.classList.add('enable');
-    //             playBtn.classList.remove('disable');
-    //         }
-    //         if (!track.paused) {
-    //             track.pause();
-    //             playBtn.classList.add('disable');
-    //             playBtn.classList.remove('enable');
-    //             pauseBtn.classList.add('enable');
-    //             pauseBtn.classList.remove('disable');
-    //         }
-    //     }
-    // })
 
     // if user clicks previous button
     let previousBtn = document.querySelector('#previous-song-button');
@@ -228,6 +206,7 @@ const scanDatabase = async () => {
             if (!track.paused) {
                 track.play();
             }
+            
             if (track.paused) {
                 track.pause();
             }

@@ -41,6 +41,10 @@ header {
     width: 475px;
 }
 
+.search-bar input {
+    color: white;
+}
+
 .search-icon {
     background-color: #1f1f1f;
     margin-left: 14px;
@@ -289,7 +293,8 @@ header {
     background-color: white;
 }
 
-.player-container #previous-song-button, .player-container #next-song-button {
+.player-container #previous-song-button,
+.player-container #next-song-button {
     background-color: transparent;
     margin: 0 20px;
     border: none;
@@ -380,7 +385,11 @@ header {
 }
 
 @media screen and (max-width:850px) {
-    .premium-button, .support-button, .download-button, .divider {
+
+    .premium-button,
+    .support-button,
+    .download-button,
+    .divider {
         display: none;
     }
 
@@ -421,20 +430,20 @@ header {
 
     .playlist-container {
         display: inline-flex;
-        gap: 20px;
+        gap: 12px;
         padding: 20px;
         justify-content: center;
         max-height: 255px;
     }
 
     .playlist {
-        width: 200px;
+        width: 130px;
         padding: 10px;
         margin: auto;
     }
 
     .playlist .thumbnail {
-        width: 50%;
+        width: 35%;
     }
 
     .playlist .img-title-container {
@@ -445,8 +454,9 @@ header {
         display: none;
     }
 
-    .title {
+    .info-container h2 {
         padding: 10px 0;
+        font-size: 18px;
     }
 
     .descprition {
